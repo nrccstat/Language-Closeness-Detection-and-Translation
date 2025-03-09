@@ -1,13 +1,13 @@
 # Language Closeness Detection and Translation App
 
 ## Overview
-This Streamlit application detects the language of a given text using `langid.py`, determines the closest alternative language based on similarity, and translates the text to that language using Google Translate.
+This Streamlit application detects the language of a given text using `langid.py`, determines the closest alternative language based on similarity, and translates the text to that language using Google Translate. It leverages predefined language samples and similarity scoring to provide the most relevant translation.
 
 ## Features
-- **Language Detection**: Uses `langid.py` to determine the language of the input text.
-- **Closest Language Matching**: Compares the detected language with a set of predefined language samples to find the most similar alternative.
-- **Translation**: Uses Google Translate API to translate the text into the closest alternative language.
-- **User-Friendly Interface**: Built with Streamlit for an interactive experience.
+- **Language Detection**: Utilizes `langid.py` to classify the input text and provide a confidence score.
+- **Closest Language Matching**: Compares the detected language with a predefined set of language samples and ranks them based on similarity.
+- **Translation**: Uses Google Translate API to convert the input text into the most similar alternative language.
+- **Interactive UI**: Built with Streamlit for a seamless user experience.
 
 ## Installation
 Clone the repository and install dependencies:
@@ -23,9 +23,24 @@ Run the Streamlit app:
 streamlit run app.py
 ```
 Enter text in the provided text area, and the app will display:
-- Detected language and confidence score
-- Closest alternative language based on similarity
-- Translated text in the closest alternative language
+- **Detected Language**: Identified using `langid.py`, along with a confidence score.
+- **Closest Alternative Language**: Determined using a similarity comparison with predefined language texts.
+- **Translated Text**: The input text translated into the closest alternative language.
+
+## Functionality Breakdown
+### `detect_language_langid(text)`
+- Uses `langid.classify()` to determine the language of the input text.
+- Returns the detected language code.
+
+### `translate_text(text, target_language)`
+- Uses Google Translate to translate the input text to the specified `target_language`.
+- Returns the translated text or an error message if translation fails.
+
+### Language Similarity Calculation
+- The detected language is compared with other languages using two methods:
+  1. **LangID ranking**: Uses `langid.rank(input_text)` to determine the next closest language.
+  2. **Text similarity scoring**: Uses `SequenceMatcher` from the `difflib` module to measure similarity with predefined example texts.
+- The language with the highest similarity score is selected as the closest alternative.
 
 ## File Structure
 ```
@@ -36,15 +51,15 @@ Enter text in the provided text area, and the app will display:
 ```
 
 ## Notes
-- The Google Translate API might experience occasional delays or errors.
+- The Google Translate API may experience occasional delays or restrictions.
 - `langid` provides confidence scores, but accuracy depends on input length and complexity.
-- The predefined language samples help in determining the closest alternative language when `langid`'s ranking is inconclusive.
+- The predefined language samples help refine the closest language selection.
 
 ## Future Improvements
-- Add more predefined language samples for better similarity matching.
-- Integrate more robust translation APIs to improve accuracy.
-- Provide users with an option to select a target language manually.
-- Implement a database to store past translations for quick retrieval.
+- Expand predefined language samples for more accurate similarity comparisons.
+- Improve error handling for Google Translate API failures.
+- Allow users to manually select the target language for translation.
+- Implement caching to store previous translations for faster results.
 
 ## Contributing
 Contributions are welcome! Feel free to fork the repository, open an issue, or submit a pull request.
@@ -54,4 +69,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 For any inquiries, open an issue on GitHub or contact `your.email@example.com`.
+
 
