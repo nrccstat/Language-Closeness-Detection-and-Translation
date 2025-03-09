@@ -64,10 +64,8 @@ Enter text in the provided text area, and the app will display:
 ## Contributing
 Contributions are welcome! Feel free to fork the repository, open an issue, or submit a pull request.
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
-For any inquiries, open an issue on GitHub or contact `your.email@example.com`.
+For any inquiries, open an issue on GitHub or contact `naci@ad.unc.edu`.
 
 
