@@ -61,9 +61,6 @@ Enter text in the provided text area, and the app will display:
 - Allow users to manually select the target language for translation.
 - Implement caching to store previous translations for faster results.
 
-## Contributing
-Contributions are welcome! Feel free to fork the repository, open an issue, or submit a pull request.
-
 
 ## Contact
 For any inquiries, open an issue on GitHub or contact `naci@ad.unc.edu`.
