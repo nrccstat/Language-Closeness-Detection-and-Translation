@@ -1,68 +1,111 @@
-# Language Closeness Detection and Translation App
 
-## Overview
-This Streamlit application detects the language of a given text using `langid.py`, determines the closest alternative language based on similarity, and translates the text to that language using Google Translate. It leverages predefined language samples and similarity scoring to provide the most relevant translation.
+
+# Language Detection, Translation, and Heatmap Visualization
+
+This project is designed to detect the language of a given input text, find the closest language, translate the text to that language, and visualize language distribution and population density using a heatmap.
 
 ## Features
-- **Language Detection**: Utilizes `langid.py` to classify the input text and provide a confidence score.
-- **Closest Language Matching**: Compares the detected language with a predefined set of language samples and ranks them based on similarity.
-- **Translation**: Uses Google Translate API to convert the input text into the most similar alternative language.
-- **Interactive UI**: Built with Streamlit for a seamless user experience.
+
+- **Language Detection**: Uses `langid` to detect the language of the input text.
+- **Language Closeness**: Identifies the closest language to the detected one based on similarity and translation options.
+- **Translation**: Translates the text into the closest language using `googletrans`.
+- **Heatmap Visualization**: Displays a heatmap showing the geographic distribution of the detected language and population density using `folium`.
+- **Wikidata Integration**: Fetches the geographic locations (latitude and longitude) of countries where the detected language is official using the Wikidata SPARQL API.
+- **Population Data**: Uses GeoJSON data to display population density as a choropleth map.
 
 ## Installation
-Clone the repository and install dependencies:
+
+To install the necessary dependencies, run:
+
 ```bash
-git clone https://github.com/yourusername/language-detection-translation.git
-cd language-detection-translation
 pip install -r requirements.txt
 ```
 
+## Dependencies
+
+- `folium`: For map visualizations.
+- `langid`: For language detection.
+- `googletrans`: For translation.
+- `requests`: For making HTTP requests to Wikidata API.
+- `pandas`: For data manipulation.
+- `streamlit`: For creating the interactive web interface.
+- `streamlit_folium`: For integrating `folium` maps with `streamlit`.
+
 ## Usage
-Run the Streamlit app:
+
+1. Clone this repository to your local machine.
+
+```bash
+git clone https://github.com/yourusername/language-detection-visualization.git
+```
+
+2. Navigate to the project directory and run the app:
+
 ```bash
 streamlit run app.py
 ```
-Enter text in the provided text area, and the app will display:
-- **Detected Language**: Identified using `langid.py`, along with a confidence score.
-- **Closest Alternative Language**: Determined using a similarity comparison with predefined language texts.
-- **Translated Text**: The input text translated into the closest alternative language.
 
-## Functionality Breakdown
-### `detect_language_langid(text)`
-- Uses `langid.classify()` to determine the language of the input text.
-- Returns the detected language code.
+3. Enter a sentence or paragraph in the input field to see the detected language, the closest language, and the translated text.
+4. View the heatmap displaying the geographic distribution of the detected language and population density.
 
-### `translate_text(text, target_language)`
-- Uses Google Translate to translate the input text to the specified `target_language`.
-- Returns the translated text or an error message if translation fails.
+## How it Works
 
-### Language Similarity Calculation
-- The detected language is compared with other languages using two methods:
-  1. **LangID ranking**: Uses `langid.rank(input_text)` to determine the next closest language.
-  2. **Text similarity scoring**: Uses `SequenceMatcher` from the `difflib` module to measure similarity with predefined example texts.
-- The language with the highest similarity score is selected as the closest alternative.
+### 1. **Language Detection**:
+   - The `langid` package is used to detect the language of the input text.
 
-## File Structure
+### 2. **Language Closeness**:
+   - The closest language is found based on the confidence score provided by `langid` or similarity with predefined example texts.
+   - `SequenceMatcher` from Python's `difflib` module is used to compute similarity between the input text and predefined texts for various languages.
+
+### 3. **Translation**:
+   - The `googletrans` library is used to translate the detected text to the closest language.
+   
+### 4. **Heatmap Generation**:
+   - Geographic data is fetched from Wikidata API for each country where the detected language is spoken.
+   - Population data is fetched from a GeoJSON file containing world population estimates.
+   - A heatmap is created using `folium`, which layers the language density and population density information.
+
+### 5. **Visualization**:
+   - The map is displayed in the Streamlit app, where the user can view the geographical regions where the language is spoken and the population density of those areas.
+
+## Example Output
+
+After inputting a text, the following results can be observed:
+
+- **Detected Language**: "English"
+- **Closest Language**: "Spanish"
+- **Translated Text**: "Este es un ejemplo de texto en español."
+- **Heatmap**: A map is displayed showing the distribution of Spanish speakers and population density across the globe.
+
+## Files in this Repository
+
+- `app.py`: The main application file that runs the Streamlit app.
+- `ne_110m_admin_0_countries.geojson.txt`: The GeoJSON file containing population data for countries.
+- `requirements.txt`: A file listing the required Python libraries for the project.
+- `languages_texts.py`: A Python file containing example texts for various languages to compute similarity scores.
+- `README.md`: This file.
+
+## Contributing
+
+Feel free to fork this repository, create issues, and submit pull requests. Contributions are welcome!
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+- `langid` for language detection.
+- `googletrans` for translation services.
+- `folium` for map visualizations.
+- `wikidata` for providing geographic language data.
 ```
-├── app.py                 # Main Streamlit application script
-├── requirements.txt       # List of dependencies
-├── README.md              # Project documentation
-└── .gitignore             # Git ignore file
-```
 
-## Notes
-- The Google Translate API may experience occasional delays or restrictions.
-- `langid` provides confidence scores, but accuracy depends on input length and complexity.
-- The predefined language samples help refine the closest language selection.
+---
 
-## Future Improvements
-- Expand predefined language samples for more accurate similarity comparisons.
-- Improve error handling for Google Translate API failures.
-- Allow users to manually select the target language for translation.
-- Implement caching to store previous translations for faster results.
-
-
-## Contact
-For any inquiries, open an issue on GitHub or contact `naci@ad.unc.edu`.
-
+### Methodology Summary:
+- **Language Detection and Translation**: Used the `langid` package for automatic language identification. For translation, the `googletrans` library was utilized, with a fallback mechanism if translation fails.
+- **Language Closeness Calculation**: Based on language confidence scores from `langid` and similarity measures using `SequenceMatcher` to determine the closest language.
+- **Geographic Data Collection**: Wikidata API was leveraged to retrieve geographic coordinates for countries where the language is spoken. 
+- **Visualization**: Employed `folium` and `streamlit` to create interactive maps and visualizations. `folium`'s `HeatMap` was used for visualizing language distribution and population density.
 
